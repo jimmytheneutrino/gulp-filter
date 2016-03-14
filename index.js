@@ -1,25 +1,48 @@
 'use strict';
-var gutil = require('gulp-util');
-var multimatch = require('multimatch');
-var path = require('path');
+
 var streamfilter = require('streamfilter');
+var micromatch = require('micromatch');
+var path = require('path');
 
-module.exports = function (pattern, options) {
-	pattern = typeof pattern === 'string' ? [pattern] : pattern;
+function compose(f, g) {
+	return function gf(x) {
+		return g(f(x));
+	};
+}
+
+function relativePath(file) {
+	return file.relative;
+}
+
+function relativeToCwd(file) {
+	return path.relative(file.cwd, file.path);
+}
+
+function fileFilter(predicate, options) {
+	return streamfilter(function (file, enc, cb) {
+		cb(!predicate(file));
+	}, options);
+}
+
+function filter(pattern, options) {
 	options = options || {};
+	var predicate;
 
-	if (!Array.isArray(pattern) && typeof pattern !== 'function') {
-		throw new gutil.PluginError('gulp-filter', '`pattern` should be a string, array, or function');
+	if (typeof pattern === 'function') {
+		predicate = pattern;
+	} else {
+		predicate = compose(options.fileToPath || relativePath, micromatch.filter(pattern, options));
 	}
 
-	return streamfilter(function (file, enc, cb) {
-		var match = typeof pattern === 'function' ? pattern(file) :
-			multimatch(options.relativeToCwd ? path.relative(file.cwd, file.path) : file.relative, pattern, options).length > 0;
-
-		cb(!match);
-	}, {
+	return fileFilter(predicate, {
 		objectMode: true,
-		passthrough: options.passthough !== false,
-		restore: options.restore
+		passthrough: options.passthrough !== false,
+		restore: options.restore !== false
 	});
-};
+}
+
+filter.fileFilter = fileFilter;
+filter.relativePath = relativePath;
+filter.relativeToCwd = relativeToCwd;
+
+module.exports = filter;
