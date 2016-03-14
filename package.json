@@ -3,11 +3,9 @@
   "version": "0.1.0",
   "description": "Filter files in a vinyl stream. A thin combination of micromatch and streamfilter.",
   "license": "MIT",
-  "repository": "sindresorhus/gulp-filter",
+  "repository": "jimmytheneutrino/micromatch-streamfilter",
   "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "http://sindresorhus.com"
+    "name": "jimmytheneutrino"
   },
   "engines": {
     "node": ">=0.10.0"
