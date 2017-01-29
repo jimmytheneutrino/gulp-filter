@@ -30,7 +30,7 @@ const filter = require('gulp-micromatch-filter');
 
 gulp.task('default', () => {
 	// create filter instance inside task function
-	const f = filter(['**', '!*src/vendor']);
+	const f = filter('!*src/vendor');
 
 	return gulp.src('src/**/*.js')
 		// filter a subset of the files
@@ -50,7 +50,7 @@ const filter = require('gulp-micromatch-filter');
 
 gulp.task('default', () => {
 	// create filter instance inside task function
-	const f = filter(['**', '!*src/vendor'], {restore: true});
+	const f = filter('!*src/vendor', {restore: true});
 
 	return gulp.src('src/**/*.js')
 		// filter a subset of the files
@@ -98,7 +98,7 @@ const uglify = require('gulp-uglify');
 const filter = require('gulp-micromatch-filter');
 
 gulp.task('default', () => {
-	const f = filter(['**', '!*src/vendor'], {restore: true, passthrough: false});
+	const f = filter('!*src/vendor', {restore: true, passthrough: false});
 
 	const stream = gulp.src('src/**/*.js')
 		// filter a subset of the files
