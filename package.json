@@ -1,13 +1,11 @@
 {
-  "name": "gulp-filter",
-  "version": "4.0.0",
-  "description": "Filter files in a vinyl stream",
+  "name": "micromatch-streamfilter",
+  "version": "0.1.0",
+  "description": "Filter files in a vinyl stream. A thin combination of micromatch and streamfilter.",
   "license": "MIT",
-  "repository": "sindresorhus/gulp-filter",
+  "repository": "jimmytheneutrino/micromatch-streamfilter",
   "author": {
-    "name": "Sindre Sorhus",
-    "email": "sindresorhus@gmail.com",
-    "url": "http://sindresorhus.com"
+    "name": "jimmytheneutrino"
   },
   "engines": {
     "node": ">=0.10.0"
@@ -26,15 +24,16 @@
     "files",
     "match",
     "minimatch",
+    "micromatch",
     "glob",
     "globbing"
   ],
   "dependencies": {
-    "gulp-util": "^3.0.6",
-    "multimatch": "^2.0.0",
+    "micromatch": "^2.3.7",
     "streamfilter": "^1.0.5"
   },
   "devDependencies": {
+    "gulp-util": "^3.0.7",
     "mocha": "*",
     "xo": "*"
   },

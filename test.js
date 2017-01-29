@@ -133,7 +133,7 @@ describe('filter()', function () {
 	});
 
 	it('should filter with respect to current working directory with relativeToCwd', function (cb) {
-		var stream = filter('test/**/*.js');
+		var stream = filter('test/**/*.js', {fileToPath: filter.relativeToCwd});
 		var buffer = [];
 
 		stream.on('data', function (file) {
@@ -249,8 +249,8 @@ describe('filter.restore', function () {
 		streamFilter1.end();
 	});
 
-	it('should end when not using the passthough option', function (cb) {
-		var stream = filter('*.json', {restore: true, passthough: false});
+	it('should end when not using the passthrough option', function (cb) {
+		var stream = filter('*.json', {restore: true, passthrough: false});
 		var restoreStream = stream.restore;
 		var buffer = [];
 
@@ -328,7 +328,7 @@ describe('filter.restore', function () {
 	});
 
 	it('should work when restore stream is not used', function (cb) {
-		var stream = filter('*.json');
+		var stream = filter('*.json', {restore: false});
 
 		for (var i = 0; i < stream._writableState.highWaterMark + 1; i++) {
 			stream.write(new gutil.File({path: 'nonmatch.js'}));
