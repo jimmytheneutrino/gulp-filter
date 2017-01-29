@@ -1,14 +1,19 @@
-# gulp-filter [![Build Status](https://travis-ci.org/sindresorhus/gulp-filter.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-filter)
+# gulp-micromatch-filter
 
-> Filter files in a [vinyl](https://github.com/wearefractal/vinyl) stream
+> Filter files in a [vinyl](https://github.com/wearefractal/vinyl) stream using [micromatch](https://github.com/jonschlinkert/micromatch)
 
 Enables you to work on a subset of the original files by filtering them using globbing. When you're done and want all the original files back you just use the `restore` stream.
+
+This is a fork of [gulp-filter](https://github.com/sindresorhus/gulp-filter) using [micromatch](https://github.com/jonschlinkert/micromatch) instead of [multimatch](https://github.com/sindresorhus/multimatch). In essence, it is a thin combination of 
+[streamfilter](https://github.com/nfroidure/streamfilter) and micromatch.
+
+It also matches on relativePath by default but allows you to specify your own options.fileToPath function (e.g., use `module.exports.relativeToCwd` for the default behaviour of gulp-filter).
 
 
 ## Install
 
 ```
-$ npm install --save-dev gulp-filter
+$ npm install --save-dev gulp-micromatch-filter
 ```
 
 
@@ -21,7 +26,7 @@ You may want to just filter the stream content:
 ```js
 const gulp = require('gulp');
 const uglify = require('gulp-uglify');
-const filter = require('gulp-filter');
+const filter = require('gulp-micromatch-filter');
 
 gulp.task('default', () => {
 	// create filter instance inside task function
@@ -41,7 +46,7 @@ gulp.task('default', () => {
 ```js
 const gulp = require('gulp');
 const uglify = require('gulp-uglify');
-const filter = require('gulp-filter');
+const filter = require('gulp-micromatch-filter');
 
 gulp.task('default', () => {
 	// create filter instance inside task function
@@ -66,7 +71,7 @@ By combining and restoring different filters you can process different sets of f
 const gulp = require('gulp');
 const less = require('gulp-less');
 const concat = require('gulp-concat');
-const filter = require('gulp-filter');
+const filter = require('gulp-micromatch-filter');
 
 gulp.task('default', () => {
 	const jsFilter = filter('**/*.js', {restore: true});
@@ -90,7 +95,7 @@ You can restore filtered files in a different place and use it as a standalone s
 ```js
 const gulp = require('gulp');
 const uglify = require('gulp-uglify');
-const filter = require('gulp-filter');
+const filter = require('gulp-micromatch-filter');
 
 gulp.task('default', () => {
 	const f = filter(['**', '!*src/vendor'], {restore: true, passthrough: false});
@@ -120,7 +125,7 @@ Returns a [transform stream](http://nodejs.org/api/stream.html#stream_class_stre
 
 Type: `string`, `array`, `function`
 
-Accepts a string/array with globbing patterns which are run through [multimatch](https://github.com/sindresorhus/multimatch).
+Accepts a string/array with globbing patterns which are run through [micromatch](https://github.com/jonschlinkert/micromatch) .
 
 If you supply a function you'll get a [vinyl file object](https://github.com/wearefractal/vinyl#file) as the first argument and you're expected to return true/false whether to include the file:
 
@@ -132,9 +137,7 @@ filter(file => /unicorns/.test(file.path));
 
 Type: `object`
 
-Accepts [minimatch options](https://github.com/isaacs/minimatch#options).
-
-*Note:* Set `dot: true` if you need to match files prefixed with a dot (eg. `.gitignore`).
+Accepts [micromatch options](https://github.com/jonschlinkert/micromatch#options) .
 
 #### options.restore
 
@@ -151,8 +154,3 @@ Default: `true`
 When set to `true` filtered files are restored with a PassThrough stream, otherwise, when set to `false`, filtered files are restored as a Readable stream.
 
 When the stream is Readable it ends by itself, but when PassThrough, you are responsible of ending the stream.
-
-
-## License
-
-MIT © [Sindre Sorhus](http://sindresorhus.com)
