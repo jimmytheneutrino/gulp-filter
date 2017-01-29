@@ -1,9 +1,9 @@
 {
-  "name": "micromatch-streamfilter",
+  "name": "gulp-micromatch-filter",
   "version": "0.1.0",
   "description": "Filter files in a vinyl stream. A thin combination of micromatch and streamfilter.",
   "license": "MIT",
-  "repository": "jimmytheneutrino/micromatch-streamfilter",
+  "repository": "jimmytheneutrino/gulp-micromatch-filter",
   "author": {
     "name": "jimmytheneutrino"
   },
